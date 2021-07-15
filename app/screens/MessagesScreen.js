@@ -1,10 +1,12 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { FlatList } from 'react-native'
 
 import { ListItem } from '../components/ListItem'
+import { ListItemSeparator } from '../components/ListItemSeparator'
+import { ListItemDeleteAction } from '../components/ListItemDeleteAction'
 
-const messages=[
+const initialMessages=[
     {
         id:1,
         title:'Title 1',
@@ -26,6 +28,20 @@ const messages=[
 ]
 
 export  function MessagesScreen(props) {
+
+    const [messages,setMessages]=useState(initialMessages);
+    const [refreshing,setRefreshing]=useState(false);
+
+    const handleDelete = (message)=>{
+        //Delete the message from the array 
+        const filteredMessages =messages.filter(m=>m.id !==message.id);
+        setMessages(filteredMessages);
+
+
+        //Call the server to delete it from DB
+    }
+
+
     return (
     <View>
      <FlatList
@@ -37,8 +53,39 @@ export  function MessagesScreen(props) {
                 title={item.title}
                 subtitle={item.description}
                 image={item.image}
+                onPress={()=>{
+                    console.log('List Item Pressed',item)
+                }}
+                renderRightActions={()=>(
+                 <ListItemDeleteAction 
+                    onPress={()=> handleDelete(item)}
+                 />
+                )}
+                
             />
         }
+        ItemSeparatorComponent={()=>
+            <ListItemSeparator/>
+        }
+        refreshing={refreshing}
+        onRefresh={()=>{
+            setMessages([...initialMessages,
+                {
+                    id:4,
+                    title:'Title 4',
+                    description:'Description for List #4',
+                    image:require("../assets/debin.jpg")
+                },
+                {
+                    id:5,
+                    title:'Title 5',
+                    description:'Description for List #5',
+                    image:require("../assets/debin.jpg")
+                }
+            ])
+        }
+        }
+
      >
 
      </FlatList>

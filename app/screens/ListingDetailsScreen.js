@@ -20,7 +20,7 @@ export function ListingDetailsScreen(props) {
 
             <View style={styles.userContainer}>
                 <ListItem  image={require("../assets/debin.jpg")} 
-                title="Debin Jose" subtitle="5 Listings"/>
+                title="Debin" subtitle="5 Listings"/>
             </View>
 
 
